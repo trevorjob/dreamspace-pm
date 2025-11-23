@@ -14,6 +14,10 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +29,7 @@ SECRET_KEY = 'django-insecure-g)9!&$$lg87$%fdwuf)kq%99aq$q*7jc2_beb^plb%d&iudfpv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', default=[])
 
 
 # Application definition
@@ -163,21 +167,17 @@ SIMPLE_JWT = {
 }
 
 # CORS Settings
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = env('CORS_ALLOWED_ORIGINS', default= [
     "http://localhost:3000",
     "http://localhost:5173",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
-]
+])
 
 CORS_ALLOW_CREDENTIALS = True
 
 # Cloudinary Configuration
 import cloudinary
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 
 cloudinary.config(
     cloud_name=env('CLOUDINARY_CLOUD_NAME', default=''),
